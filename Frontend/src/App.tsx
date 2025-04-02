@@ -7,22 +7,34 @@ import ReportAnalyzer from './pages/ReportAnalyzer';
 import Emergency from './pages/Emergency';
 import About from './pages/About';
 import Footer from './components/Footer';
+import MedicationTracker from './pages/MedicationTracker';
+import { Toaster } from 'react-hot-toast';
+import { MedicationProvider } from './context/MedicationContext';
+
+
 function App() {
   return (
-    <Router>
-      <div className="min-h-screen bg-background-light dark:bg-background-dark">
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/chatbot" element={<Chatbot />} />
-          <Route path="/analyzer" element={<ReportAnalyzer />} />
-          <Route path="/emergency" element={<Emergency />} />
-          <Route path="/about" element={<About />} />
-        </Routes>
-      </div>
-      <Footer/>
-    </Router>
-  );
+    <MedicationProvider>
+      <Router>
+   
+          <Navbar />
+          <div className="container mx-auto px-4 py-8">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/chatbot" element={<Chatbot />} />
+              <Route path="/analyzer" element={<ReportAnalyzer />} />
+              <Route path="/emergency" element={<Emergency />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/medication" element={<MedicationTracker />} />
+       
+            </Routes>
+          </div>
+          <Toaster position="bottom-right" />
+          <Footer />
+      
+      </Router>
+    </MedicationProvider>
+     );
 }
 
 export default App;
