@@ -1,17 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, MessageSquare, FileText, AlertCircle, Info, Menu, X } from 'lucide-react';
+import { Heart, MessageSquare, FileText, AlertCircle, Info, Menu, X ,Salad  } from 'lucide-react';
 import { motion } from 'framer-motion';
-
 const Navbar = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const navItems = [
     { name: 'Home', path: '/', icon: Heart },
     { name: 'AI Chatbot', path: '/chatbot', icon: MessageSquare },
-    { name: 'Report Analyzer', path: '/analyzer', icon: FileText },
-    { name: 'Emergency SOS', path: '/emergency', icon: AlertCircle },
+    // { name: 'Report Analyzer', path: '/analyzer', icon: FileText },
+   { name: 'Emergency SOS', path: '/emergency', icon: AlertCircle },
+    { name: 'Medication', path: '/Medication', icon: FileText },   
     { name: 'About', path: '/about', icon: Info },
+
+
+ 
   ];
 
   return (
