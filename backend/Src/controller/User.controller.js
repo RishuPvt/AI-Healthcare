@@ -62,7 +62,7 @@ const loginUser = asyncHandler(async (req, res) => {
     }
 
     const isPasswordCorrect = await bcrypt.compare(
-      hashedPassword,
+      password,
       user.password
     );
     if (!isPasswordCorrect) {
@@ -72,8 +72,7 @@ const loginUser = asyncHandler(async (req, res) => {
     const accessToken = jwt.sign(
       {
         id: user.id,
-        email: user.email,
-        name: user.name,
+        fullName: user.fullName,
       },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: process.env.ACCESS_TOKEN_EXPIRY }
