@@ -10,8 +10,8 @@ interface Contact {
 }
 
 const DEMO_CONTACTS: Contact[] = [
-  { id: '1', name: 'John Doe', phone: '+1234567890', relation: 'Father' },
-  { id: '2', name: 'Jane Doe', phone: '+1234567891', relation: 'Mother' },
+  { id: '1', name: 'user 1', phone: '+1234567890', relation: 'Father' },
+  { id: '2', name: 'user 2', phone: '+1234567891', relation: 'Mother' },
 ];
 
 export const EmergencyContacts: React.FC = () => {

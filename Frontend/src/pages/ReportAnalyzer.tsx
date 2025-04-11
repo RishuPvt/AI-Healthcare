@@ -16,8 +16,18 @@ import {
 import { FileUpload } from "../components/FileUpload";
 import { Toaster } from "react-hot-toast";
 
+
+interface AnalysisResult {
+  fileName: string;
+  timestamp: string;
+  type: string;
+  diagnosis: string;
+  confidenceLevel: number; // Changed to number
+  findings: string;
+  recommendations: string;
+}
 const ReportAnalyzer = () => {
-  const [analysisHistory, setAnalysisHistory] = useState<any[]>([]);
+  const [analysisHistory, setAnalysisHistory] = useState<AnalysisResult[]>([]);
   const [activeTab, setActiveTab] = useState<"reports" | "terminal">("terminal");
   const [expandedEntries, setExpandedEntries] = useState<Set<number>>(new Set());
 
@@ -40,13 +50,15 @@ const ReportAnalyzer = () => {
         timestamp: new Date().toISOString(),
         type: "analysis",
         diagnosis: r.diagnosis || "No diagnosis provided",
-        confidenceLevel: r.confidenceLevel || 0,
+        confidenceLevel: r.confidenceLevel?.value || 0,
       })),
       ...prev,
     ]);
   };
-
-  const ConfidenceBadge = ({ level }: { level: number }) => (
+  interface ConfidenceBadgeProps {
+    level: number;
+  }
+  const ConfidenceBadge = ({ level }: ConfidenceBadgeProps) => (
     <div className="flex items-center">
       <div className="relative w-24 h-2 bg-gray-700 rounded-full mr-2">
         <div

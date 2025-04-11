@@ -4,7 +4,7 @@ import cors from "cors";
 const app = express();
 
 const corsOptions = {
-    origin: "https://backend-hub.vercel.app",
+    origin: "http://localhost:5173",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Origin", "Content-Type", "Accept", "Authorization"],
@@ -23,5 +23,8 @@ app.use(cookieParser());
 import UserRouter from "./Src/Routes/User.router.js"
 app.use("/api/v1/users",UserRouter)
 
+import emergencyRouter from './Src/Routes/sos.router.js';
+
+app.use("/api/v1/users", emergencyRouter);
 export {app};
 

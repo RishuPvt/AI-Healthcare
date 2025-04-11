@@ -1,20 +1,27 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Heart, MessageSquare, FileText, AlertCircle, Info, Menu, X ,Salad  } from 'lucide-react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { Link } from "react-router-dom";
+import {
+  Heart,
+  MessageSquare,
+  FileText,
+  AlertCircle,
+  Info,
+  Menu,
+  X,
+  LogIn,
+} from "lucide-react";
+import { motion } from "framer-motion";
 const Navbar = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const navItems = [
-    { name: 'Home', path: '/', icon: Heart },
-    { name: 'AI Chatbot', path: '/chatbot', icon: MessageSquare },
+    { name: "Home", path: "/", icon: Heart },
+    { name: "AI Chatbot", path: "/chatbot", icon: MessageSquare },
     // { name: 'Report Analyzer', path: '/analyzer', icon: FileText },
-   { name: 'Emergency SOS', path: '/emergency', icon: AlertCircle },
-    { name: 'Medication', path: '/Medication', icon: FileText },   
-    { name: 'About', path: '/about', icon: Info },
-
-
- 
+    { name: "Emergency SOS", path: "/emergency", icon: AlertCircle },
+    { name: "Medication", path: "/Medication", icon: FileText },
+    { name: "Profile", path: "/about", icon: Info },
+    { name: "", path: "/Auth", icon: LogIn },
   ];
 
   return (
@@ -23,7 +30,9 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center">
             <Heart className="h-8 w-8 text-primary" />
-            <span className="ml-2 text-xl font-poppins font-bold text-primary">SwasthyaSangini</span>
+            <span className="ml-2 text-xl font-poppins font-bold text-primary">
+              SwasthyaSangini
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -46,7 +55,11 @@ const Navbar = () => {
               onClick={() => setIsOpen(!isOpen)}
               className="text-gray-700 dark:text-gray-200"
             >
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {isOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
             </button>
           </div>
         </div>

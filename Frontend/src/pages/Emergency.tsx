@@ -1,37 +1,26 @@
+// Emergency.tsx
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import toast, { Toaster } from 'react-hot-toast';
-import  EmergencyButton from '../components/EmergencyButton';
+import EmergencyButton from '../components/EmergencyButton';
 import { LocationMap } from '../components/LocationMap';
 import { EmergencyContacts } from '../components/EmergencyContacts';
 
 const Emergency = () => {
   const [location, setLocation] = useState<GeolocationPosition | null>(null);
-  const [isVoiceEnabled, setIsVoiceEnabled] = useState(false);
+  const [emergencySent, setEmergencySent] = useState(false);
 
   useEffect(() => {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => setLocation(position),
-        (error) => {
-          console.error('Error getting location:', error);
-          toast.error('Unable to get your location');
-        }
+        (error) => toast.error('Enable location services for emergency features')
       );
-    }
-
-    if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-      setIsVoiceEnabled(true);
     }
   }, []);
 
-  const handleEmergency = () => {
-    if (location) {
-      toast.success('Emergency services have been notified!');
-      // Here you would integrate with your backend to send the actual emergency alert
-    } else {
-      toast.error('Unable to send location. Please enable location services.');
-    }
+  const handleEmergencyResponse = (success: boolean) => {
+    setEmergencySent(success);
   };
 
   return (
@@ -46,7 +35,7 @@ const Emergency = () => {
             Emergency SOS
           </h1>
 
-          <EmergencyButton onEmergency={handleEmergency} />
+          <EmergencyButton onEmergency={handleEmergencyResponse} />
           
           {location && (
             <motion.div
@@ -57,8 +46,22 @@ const Emergency = () => {
               <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
                 Your Location
               </h2>
-              <LocationMap location={location} />
+              <LocationMap 
+                latitude={location.coords.latitude}
+                longitude={location.coords.longitude}
+              />
             </motion.div>
+          )}
+
+          {emergencySent && (
+            <div className="mt-8 p-4 bg-green-100 rounded-lg">
+              <h3 className="text-lg font-semibold text-green-800">
+                Emergency alert sent successfully! Help is on the way.
+              </h3>
+              <p className="mt-2 text-green-700">
+                Stay calm and wait for assistance. Medical professionals have been notified.
+              </p>
+            </div>
           )}
 
           <EmergencyContacts />
