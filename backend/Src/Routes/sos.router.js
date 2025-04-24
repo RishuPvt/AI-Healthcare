@@ -6,6 +6,6 @@ const router = Router();
 
 // Protected emergency route
 router.route("/send-alert")
-  .post(verifyJWT, sendEmergencyAlert);
+  .post( sendEmergencyAlert);
 
 export default router;

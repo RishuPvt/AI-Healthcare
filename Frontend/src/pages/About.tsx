@@ -23,8 +23,8 @@ const Profile = () => {
         const response = await axios.get(`${backendUrl}/getCurrentUser`, {
           withCredentials: true,
         });
-           (response.data.data);
-        console.log(user);
+        setUser(response.data.data);
+       // console.log("res data",response.data.data);
       } catch (error: any) {
         setError(error.response?.data?.message || "Please log in");
       } finally {
@@ -91,6 +91,8 @@ const Profile = () => {
       </div>
     );
   }
+  console.log(user);
+  
 
   if (!user) {
     return (
@@ -175,8 +177,17 @@ const Profile = () => {
             </div>
           )}
 
-          {/* Logout Button */}
+         
           <div className="mt-8 flex justify-end">
+             {/* Deatils Button */}
+          <button
+              className="flex items-center gap-2 px-6 py-2.5 bg-yellow-600 text-white rounded-lg
+                hover:bg-red-700 transition-colors duration-300 shadow-sm hover:shadow-md mr-[10px]"
+            >
+              {/* <FaPowerOff className="w-4 h-4" /> */}
+              <span className="text-sm font-medium">Update Details</span>
+            </button>
+             {/* Logout Button */}
             <button
               onClick={handleLogout}
               className="flex items-center gap-2 px-6 py-2.5 bg-red-600 text-white rounded-lg
@@ -185,6 +196,7 @@ const Profile = () => {
               <FaPowerOff className="w-4 h-4" />
               <span className="text-sm font-medium">Logout</span>
             </button>
+            
           </div>
 
         </div>

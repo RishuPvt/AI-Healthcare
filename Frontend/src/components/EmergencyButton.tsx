@@ -17,22 +17,23 @@ const EmergencyButton = ({ onEmergency }: EmergencyButtonProps) => {
   const toastId = useRef<string | null>(null);
 
   const fetchLocation = useCallback(async () => {
-    return new Promise<{ lat: number; lng: number }>((resolve, reject) => {
+    return new Promise<string>((resolve, reject) => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
             const { latitude, longitude } = position.coords;
+            const loc = `https://maps.google.com/?q=${latitude},${longitude}`;
             setCoordinates({ lat: latitude, lng: longitude });
-            resolve({ lat: latitude, lng: longitude });
+            resolve(loc);
           },
           (error) => {
-            toast.error("Location access denied. Using last known location.");
-            reject(error);
+            toast.error("❌ Location access denied. Sending without precise location.");
+            resolve("Location unavailable");
           }
         );
       } else {
-        toast.error("Geolocation not supported.");
-        reject(new Error("Geolocation not supported"));
+        toast.error("❌ Geolocation not supported.");
+        resolve("Location unavailable");
       }
     });
   }, []);
@@ -59,16 +60,24 @@ const EmergencyButton = ({ onEmergency }: EmergencyButtonProps) => {
   // }, []);
 
   const sendEmergencyAlert = useCallback(async () => {
-    if (!coordinates) return;
-
     try {
+      const locationUrl = await fetchLocation();
+      
       const response = await axios.post(`${backendUrl}/send-alert`, {
-        latitude: coordinates.lat,
-        longitude: coordinates.lng
+        location: locationUrl, // Send the map URL instead of raw coordinates
+        coordinates: coordinates // Optional: send both if needed
       });
-
+  
       if (response.data.success) {
-        toast.success(`Alert sent to ${response.data.hospital} (${response.data.distance} km away)`);
+        toast.success(
+          <div>
+            Alert sent to {response.data.hospital} ({response.data.distance} km away)
+            <br />
+            <a href={locationUrl} target="_blank" rel="noopener noreferrer">
+              View Location
+            </a>
+          </div>
+        );
         onEmergency(true);
       }
     } catch (error) {
@@ -76,6 +85,7 @@ const EmergencyButton = ({ onEmergency }: EmergencyButtonProps) => {
       onEmergency(false);
     }
   }, [coordinates, onEmergency]);
+  
 
   const handleEmergency = useCallback(async () => {
     setIsPressed(true);
